@@ -1,0 +1,49 @@
+version: '3.8'
+services:
+  nest-app:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    depends_on:
+      - nest-app-postgres
+      - nest-app-redis
+    ports:
+      - 3000:3000
+    networks:
+      - common-network
+
+  nest-app-postgres:
+    container_name: nest-app-postgres
+    image: postgres:16
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+    ports:
+      - 5432:5432
+    env_file:
+      - .env
+    networks:
+      - common-network
+
+
+  nest-app-redis:
+    container_name: nest-app-redis
+    image: redis
+    command: [ "--requirepass", "${REDIS_PASSWORD}" ]
+    volumes:
+      - redis_data:/data
+    restart: always
+    ports:
+      - 6379:6379
+    env_file:
+      - .env
+    networks:
+      - common-network
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  common-network:
+    driver: bridge
