@@ -1,15 +1,14 @@
 export const html = `
-<SECTION>
-  <H1> title titletitle</H1>
-  <P> description descriptiondescription</P>
-</SECTION>
-<SECTION>
-  <H1> title titletitle</H1>
-  <p> description descriptiondescription</P>
-</SECTION>
-<SECTION>
-  <H1> title titletitle</H1>
-  <P> description descriptiondescription</P>
-  <P> description descriptiondescription</P>
-</SECTION>
+<#>
+  <H1> itle</H1>
+  <P> descrion</P>
+</#>
+<#>
+  <H1> erwlkjr</H1>
+  <p> descrjlw</P>
+</#>
+<#>
+  <H1> titlt12312</H1>
+  <P> dondi</P>
+</#>
 `;
