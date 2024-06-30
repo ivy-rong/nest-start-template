@@ -1,0 +1,22 @@
+model User {
+  id          Int        @id @default(autoincrement())
+  username    String     @unique @db.VarChar(30)
+  nickName    String?    @map("nick_name") @db.VarChar(50)
+  password    String     @db.VarChar(100)
+  phoneNumber String?    @unique @map("phone_number") @db.VarChar(25)
+  email       String?    @unique @db.VarChar(50)
+  avatarUrl   String?    @map("avatar_url") @db.VarChar(100)
+  gender      String?    @db.VarChar(50)
+  enabled     Boolean    @default(true)
+  UserRole    UserRole[]
+  auths       Auth[]
+
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamp(3)
+  createdBy Int?      @map("created_by")
+  updatedAt DateTime? @updatedAt @map("updated_at") @db.Timestamp(3)
+  updatedBy Int?      @map("updated_by")
+  deletedAt DateTime? @map("deleted_at") @db.Timestamp(3)
+  deletedBy Int?      @map("deleted_by")
+
+  @@map("system_user")
+}

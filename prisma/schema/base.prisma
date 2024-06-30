@@ -1,0 +1,11 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  //允许在单独的目录中存储 Prisma 模式文件
+  previewFeatures = ["omitApi", "relationJoins", "prismaSchemaFolder"]
+  binaryTargets   = ["native"]
+}

@@ -10,37 +10,30 @@ import {
   Query,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
-import { LoginDto } from './dto';
-import { Request } from 'express';
+import { LoginDto, SignupDto } from './dto';
+import { R } from 'src/common/class';
+import { ApiBody, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('认证')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @ApiOperation({ summary: '注册' })
+  @Post('signup')
+  async signup(@Body() signupDto: SignupDto) {
+    return new R({
+      data: await this.authService.signup(signupDto),
+      msg: '注册成功',
+    });
+  }
+
+  @ApiOperation({ summary: '登录' })
   @Post('login')
-  login(@Body() loginDto: LoginDto) {
-    return this.authService.login();
-  }
-
-  @Get()
-  findAll(@Req() request: Request, @Query() query: string) {
-    return this.authService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.authService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAuthDto: UpdateAuthDto) {
-    return this.authService.update(+id, updateAuthDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.authService.remove(+id);
+  async login(@Body() loginDto: LoginDto) {
+    return new R({
+      data: await this.authService.login(loginDto),
+      msg: '登录成功',
+    });
   }
 }

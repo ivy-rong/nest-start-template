@@ -10,7 +10,15 @@ import {
 import { StreamService } from './stream.service';
 import { createReadStream } from 'fs';
 import { join } from 'path';
-import { Observable, filter, interval, map, take, takeUntil } from 'rxjs';
+import {
+  Observable,
+  filter,
+  finalize,
+  interval,
+  map,
+  take,
+  takeUntil,
+} from 'rxjs';
 import { html } from './dto';
 import { ServerResponse } from 'http';
 
@@ -44,6 +52,10 @@ export class StreamController {
       }),
       take(html.length),
       takeUntil(stopSource),
+      finalize(() => {
+        // 在数据推送完成后关闭 SSE 连接
+        res.end();
+      }),
     );
     return evenSource;
   }
