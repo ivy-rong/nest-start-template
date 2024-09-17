@@ -34,6 +34,7 @@ export class UserController {
   @ApiOperation({ summary: '用户列表' })
   @Get()
   async findMany(@Query() pageUserDto: PageUserDto) {
+    console.log(pageUserDto);
     return new R({
       data: await this.userService.findMany(pageUserDto),
       msg: '获取用户列表成功',

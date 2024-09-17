@@ -37,10 +37,10 @@ export class UserService {
             ...(endTime && { lte: endTime }),
           },
           id: {
-            ...(id && { equals: id }),
+            ...(id && { equals: Number(id) }),
           },
           enabled: {
-            ...(enabled && { equals: enabled }),
+            ...(enabled && { equals: true }),
           },
         },
       ],
@@ -60,8 +60,10 @@ export class UserService {
     const records = await this.prismaService.user.findMany({
       where,
 
-      skip: (page - 1) * Number(pageSize),
-      take: Number(pageSize),
+      skip: 0,
+      // (page - 1) * Number(pageSize),
+      // take: Number(pageSize),
+      take: 10,
     });
     const total = await this.prismaService.user.count({ where });
     return plainToClass(PageUserVo, {

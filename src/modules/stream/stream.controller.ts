@@ -43,7 +43,7 @@ export class StreamController {
       return;
     }
 
-    const source = interval(50);
+    const source = interval(100);
     const stopSource = source.pipe(filter((val) => val >= html.length));
     const evenSource = source.pipe(
       map((val) => {

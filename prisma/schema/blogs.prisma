@@ -1,0 +1,18 @@
+model Blogs {
+  id          Int       @id @default(autoincrement())
+  title       String    @db.VarChar(255)
+  description String    @db.VarChar(255)
+  image       String    @db.VarChar(255)
+  date        DateTime? @db.Timestamptz(3)
+  catalogue   String?   @db.VarChar(255)
+  text        String?   @db.VarChar(255)
+  seo         Seo       @relation(fields: [seoId], references: [id])
+  seoId       Int       @map("seo_id")
+
+  createdAt DateTime? @default(now()) @map("created_at") @db.Timestamptz(3)
+  createdBy Int?      @map("created_by")
+  updatedAt DateTime? @updatedAt @map("updated_at") @db.Timestamptz(3)
+  updatedBy Int?      @map("updated_by")
+  deletedAt DateTime? @map("deleted_at") @db.Timestamptz(3)
+  deletedBy Int?      @map("deleted_by")
+}
