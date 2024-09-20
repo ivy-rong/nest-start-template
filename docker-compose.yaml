@@ -25,11 +25,9 @@ services:
     networks:
       - common-network
 
-
   nest-app-redis:
     container_name: nest-app-redis
     image: redis
-    command: [ "--requirepass", "${REDIS_PASSWORD}" ]
     volumes:
       - redis_data:/data
     restart: always
@@ -43,6 +41,7 @@ services:
 volumes:
   postgres_data:
   redis_data:
+
 
 networks:
   common-network:

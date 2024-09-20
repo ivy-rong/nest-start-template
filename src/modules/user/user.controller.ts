@@ -9,6 +9,7 @@ import {
   Query,
   Put,
   ParseIntPipe,
+  Header,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -25,6 +26,7 @@ export class UserController {
   @ApiOperation({ summary: '创建用户' })
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
+    console.log(createUserDto, '333333333333');
     return new R({
       data: await this.userService.create(createUserDto),
       msg: '创建成功',
@@ -33,8 +35,9 @@ export class UserController {
 
   @ApiOperation({ summary: '用户列表' })
   @Get()
-  async findMany(@Query() pageUserDto: PageUserDto) {
-    console.log(pageUserDto);
+  async findMany(@Query() pageUserDto: PageUserDto, @Body() bodyData: any) {
+    console.log(pageUserDto, '11111111111');
+    console.log(bodyData, '2222222222222');
     return new R({
       data: await this.userService.findMany(pageUserDto),
       msg: '获取用户列表成功',

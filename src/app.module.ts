@@ -6,8 +6,9 @@ import { PrismaModule } from 'src/shared/prisma/prisma.module';
 import { UserModule } from 'src/modules/user/user.module';
 import { StreamModule } from 'src/modules/stream/stream.module';
 // import { PrismaService } from 'src/shared/prisma/prisma.service';
+import { JsonModule } from './modules/json/json.module';
 @Module({
-  imports: [AuthModule, PrismaModule, UserModule, StreamModule],
+  imports: [AuthModule, PrismaModule, UserModule, StreamModule, JsonModule],
   controllers: [AppController],
   providers: [AppService],
 })

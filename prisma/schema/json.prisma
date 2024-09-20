@@ -1,9 +1,6 @@
 model json {
-  id          Int     @id @default(autoincrement())
-  keywords    String? @db.VarChar(50)
-  description String? @db.VarChar(500)
-  title       String? @db.VarChar(50)
-  h1          String? @db.VarChar(50)
+  id   Int     @id @default(autoincrement())
+  json String? @db.VarChar()
 
   createdAt DateTime  @default(now()) @map("created_at") @db.Timestamp(3)
   createdBy Int?      @map("created_by")
