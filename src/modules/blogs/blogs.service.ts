@@ -10,8 +10,38 @@ export class BlogsService {
   constructor(private readonly prismaService: PrismaService) {}
 
   async create(createBlogDto: Prisma.BlogsCreateInput) {
+    const { seo, siteType, ...restData } = createBlogDto;
     console.log(createBlogDto, '1111');
-    return await this.prismaService.blogs.create({ data: createBlogDto });
+    console.log(seo, 'seo');
+    console.log(siteType, 'siteType');
+
+    let siteTypeData = {};
+
+    const siteTypeExists = await this.prismaService.siteType.findFirst({
+      where: { siteType: 'siteType?.qweqwe' as string },
+    });
+
+    if (siteTypeExists) {
+      siteTypeData = {
+        connect: { id: siteTypeExists.id },
+      };
+    } else {
+      siteTypeData = {
+        create: {
+          siteType,
+        },
+      };
+    }
+
+    return await this.prismaService.blogs.create({
+      data: {
+        ...createBlogDto,
+        seo: {
+          create: seo,
+        },
+        siteType: siteTypeData,
+      },
+    });
   }
 
   async findAll(pageBlogsDto: PageBlogsDto) {
@@ -71,3 +101,4 @@ export class BlogsService {
     });
   }
 }
+

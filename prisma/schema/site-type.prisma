@@ -1,6 +1,6 @@
 model SiteType {
-  id       Int     @id @default(autoincrement())
-  siteType String? @map("site_type") @db.VarChar(100)
+  id       Int    @id @default(autoincrement())
+  siteType String @unique @map("site_type") @db.VarChar(100)
 
   createdAt DateTime  @default(now()) @map("created_at") @db.Timestamp(3)
   createdBy Int?      @map("created_by")
