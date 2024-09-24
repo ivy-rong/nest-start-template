@@ -9,6 +9,8 @@ model Blogs {
   siteName    String    @map("site_name") @db.VarChar(255)
   seo         Seo       @relation(fields: [seoId], references: [id])
   seoId       Int       @map("seo_id")
+  siteType    SiteType  @relation(fields: [siteTypeId], references: [id])
+  siteTypeId  Int       @map("site_type_id")
 
   createdAt DateTime? @default(now()) @map("created_at") @db.Timestamptz(3)
   createdBy Int?      @map("created_by")
