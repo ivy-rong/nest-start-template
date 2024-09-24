@@ -10,6 +10,7 @@ export class BlogsService {
   constructor(private readonly prismaService: PrismaService) {}
 
   async create(createBlogDto: Prisma.BlogsCreateInput) {
+    console.log(createBlogDto, '1111');
     return await this.prismaService.blogs.create({ data: createBlogDto });
   }
 

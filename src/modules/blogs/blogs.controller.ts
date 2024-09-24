@@ -27,7 +27,6 @@ export class BlogsController {
   constructor(private readonly blogsService: BlogsService) {}
 
   @ApiOperation({ summary: '创建blogs' })
-  @ApiBody({ type: Prisma.BlogsCreateInput })
   @Post()
   async create(@Body() createBlogDto: Prisma.BlogsCreateInput) {
     return new R({
