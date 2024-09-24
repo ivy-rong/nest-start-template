@@ -65,6 +65,7 @@ export class UserService {
       // take: Number(pageSize),
       take: 10,
     });
+
     const total = await this.prismaService.user.count({ where });
     return plainToClass(PageUserVo, {
       records,

@@ -9,11 +9,17 @@ import {
   Query,
 } from '@nestjs/common';
 import { BlogsService } from './blogs.service';
-import { CreateBlogDto } from './dto/create-blog.dto';
-import { UpdateBlogDto } from './dto/update-blog.dto';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiOperation,
+  ApiTags,
+  ApiQuery,
+  ApiParam,
+  ApiBody,
+} from '@nestjs/swagger';
 import type { Prisma } from '@prisma/client';
-import { query } from 'express';
+
+import type { PageBlogsDto } from './dto/page-blog.dto';
+import { R } from 'src/common/class';
 
 @ApiTags('blogs')
 @Controller('blogs')
@@ -21,32 +27,75 @@ export class BlogsController {
   constructor(private readonly blogsService: BlogsService) {}
 
   @ApiOperation({ summary: '创建blogs' })
+  @ApiBody({ type: Prisma.BlogsCreateInput })
   @Post()
-  create(@Body() createBlogDto: Prisma.BlogsCreateInput) {
-    return this.blogsService.create(createBlogDto);
+  async create(@Body() createBlogDto: Prisma.BlogsCreateInput) {
+    return new R({
+      data: await this.blogsService.create(createBlogDto),
+      msg: '创建成功',
+    });
   }
 
   @ApiOperation({ summary: '得到所有类型blogs' })
+  @ApiQuery({ name: 'siteType', required: true, type: String })
+  @ApiQuery({ name: 'page', required: true, type: Number })
+  @ApiQuery({ name: 'pageSize', required: true, type: Number })
   @Get()
-  findAll(@Query() siteType: string) {
-    return this.blogsService.findAll(siteType);
+  async findAll(@Query() pageBlogsDto: PageBlogsDto) {
+    return new R({
+      data: await this.blogsService.findAll(pageBlogsDto),
+      msg: '获取blogs列表成功',
+    });
   }
 
   @ApiOperation({ summary: '得到单个blogs' })
+  @ApiParam({
+    name: 'id',
+    description: 'ID',
+    required: true,
+    type: Number,
+  })
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.blogsService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return new R({
+      data: await this.blogsService.findOne({ id: +id }),
+      msg: '获取blogs成功',
+    });
   }
 
   @ApiOperation({ summary: '更新blogs' })
+  @ApiParam({
+    name: 'id',
+    description: 'ID',
+    required: true,
+    type: Number,
+  })
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBlogDto: UpdateBlogDto) {
-    return this.blogsService.update(+id, updateBlogDto);
+  async update(
+    @Param('id') id: string,
+    @Body() updateBlogDto: Prisma.BlogsUpdateInput,
+  ) {
+    return new R({
+      data: await this.blogsService.update({
+        where: { id: +id },
+        data: updateBlogDto,
+      }),
+      msg: '更新blogs成功',
+    });
   }
 
   @ApiOperation({ summary: '删除blogs' })
+  @ApiParam({
+    name: 'id',
+    description: 'ID',
+    required: true,
+    type: Number,
+  })
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.blogsService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return new R({
+      data: await this.blogsService.remove({ id: +id }),
+      msg: '更新blogs成功',
+    });
   }
 }
