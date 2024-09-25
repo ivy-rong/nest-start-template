@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { CreateBlogDto, UpdateBlogDto } from './dto';
-import { PageBlogsDto } from './dto/page-blog.dto';
+import { CreateBlogDto, UpdateBlogDto, PageBlogsDto } from './dto';
 import { PrismaService } from 'src/shared/prisma/prisma.service';
 import { Blogs, Prisma } from '@prisma/client';
+import { PageBlogsVo } from './vo';
+import { plainToClass } from 'class-transformer';
 
 @Injectable()
 export class BlogsService {
@@ -72,8 +73,11 @@ export class BlogsService {
 
     const total = await this.prismaService.blogs.count({ where });
 
-    return await this.prismaService.blogs.findMany({
-      where,
+    return plainToClass(PageBlogsVo, {
+      records,
+      total,
+      page,
+      pageSize,
     });
   }
 

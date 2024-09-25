@@ -1,10 +1,10 @@
-// import { Type } from 'class-transformer';
+import { Type } from 'class-transformer';
 
-// import { UserVo } from './user.vo';
-// import { Page } from 'src/common/class';
+import { BlogsVo } from './blogs.vo';
+import { Page } from 'src/common/class';
 
-// export class PageUserVo extends Page {
-//   @Type(() => UserVo)
-//   records: UserVo[];
-// }
+export class PageBlogsVo extends Page {
+  @Type(() => BlogsVo)
+  records: BlogsVo[];
+}
 
