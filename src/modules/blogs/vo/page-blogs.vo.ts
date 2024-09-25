@@ -6,5 +6,6 @@ import { Page } from 'src/common/class';
 export class PageBlogsVo extends Page {
   @Type(() => BlogsVo)
   records: BlogsVo[];
+  has_more: boolean;
 }
 

@@ -78,6 +78,7 @@ export class BlogsService {
       total,
       page,
       pageSize,
+      has_more: total > page * pageSize,
     });
   }
 
