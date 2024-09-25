@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateBlogDto } from './dto/create-blog.dto';
-import { UpdateBlogDto } from './dto/update-blog.dto';
+import { CreateBlogDto, UpdateBlogDto } from './dto';
 import { PageBlogsDto } from './dto/page-blog.dto';
 import { PrismaService } from 'src/shared/prisma/prisma.service';
 import { Blogs, Prisma } from '@prisma/client';
@@ -9,7 +8,7 @@ import { Blogs, Prisma } from '@prisma/client';
 export class BlogsService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async create(createBlogDto: Prisma.BlogsCreateInput) {
+  async create(createBlogDto: CreateBlogDto) {
     const { seo, siteType, ...restData } = createBlogDto;
     console.log(createBlogDto, '1111');
     console.log(seo, 'seo');
@@ -18,7 +17,7 @@ export class BlogsService {
     let siteTypeData = {};
 
     const siteTypeExists = await this.prismaService.siteType.findFirst({
-      where: { siteType: 'siteType?.qweqwe' as string },
+      where: { siteType },
     });
 
     if (siteTypeExists) {
@@ -89,6 +88,7 @@ export class BlogsService {
     data: Prisma.BlogsUpdateInput;
   }): Promise<Blogs> {
     const { data, where } = params;
+    const { seo, siteType } = data;
     return this.prismaService.blogs.update({
       data,
       where,

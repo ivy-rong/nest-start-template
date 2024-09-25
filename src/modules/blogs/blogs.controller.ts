@@ -17,8 +17,7 @@ import {
   ApiBody,
 } from '@nestjs/swagger';
 import type { Prisma } from '@prisma/client';
-
-import type { PageBlogsDto } from './dto/page-blog.dto';
+import type { PageBlogsDto, CreateBlogDto } from './dto';
 import { R } from 'src/common/class';
 
 @ApiTags('blogs')
@@ -28,7 +27,7 @@ export class BlogsController {
 
   @ApiOperation({ summary: '创建blogs' })
   @Post()
-  async create(@Body() createBlogDto: Prisma.BlogsCreateInput) {
+  async create(@Body() createBlogDto: CreateBlogDto) {
     return new R({
       data: await this.blogsService.create(createBlogDto),
       msg: '创建成功',
@@ -94,7 +93,7 @@ export class BlogsController {
   async remove(@Param('id') id: string) {
     return new R({
       data: await this.blogsService.remove({ id: +id }),
-      msg: '更新blogs成功',
+      msg: '删除blogs成功',
     });
   }
 }
